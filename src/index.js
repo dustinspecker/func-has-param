@@ -4,7 +4,7 @@
  * Check for string type
  * @param {Object} o - object to type check
  * @param {String} paramName - parameter name being checked
- * @throw {TypeError} - if o is not a string
+ * @throws {TypeError} - if o is not a string
  */
 function stringCheck(o, paramName) {
   if (typeof o !== 'string') {
@@ -16,7 +16,7 @@ function stringCheck(o, paramName) {
  * Check for empty string
  * @param {String} str - string to check if not empty
  * @param {String} paramName - parameter name being checked
- * @throw {Error} - if str is an empty string
+ * @throws {Error} - if str is an empty string
  */
 function emptyStringCheck(str, paramName) {
   if (str.length === 0) {
@@ -28,7 +28,7 @@ function emptyStringCheck(str, paramName) {
  * Check for whitespace
  * @param {String} str - string to check for whitespace
  * @param {String} paramName - parameter name being checked
- * @throw {Error} - if str contains whitespace
+ * @throws {Error} - if str contains whitespace
  */
 function whitespaceCheck(str, paramName) {
   if (str.match(/\s/g)) {
