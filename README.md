@@ -29,7 +29,7 @@ funcHasParam(file, 'test', 'param');
 
 funcHasParam(file, 'test', 'x');
 // => false
-
+```
 
 ### ES5
 ```javascript
