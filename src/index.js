@@ -40,9 +40,9 @@ function whitespaceCheck(str, paramName) {
  * Get functionName's params in contents
  * @param {String} contents - string to search for function info
  * @param {String} functionName - function name to get params of
- * @param {Object} [opts] - passed options
- *   {String} [opts.language = 'js'] - language file of file being used ('js', 'coffee', 'ts')
- *   {String} [opts.type] - parameter type (used only for TypeScript)
+ * @param {Object} [opts={language:'js'}] - passed options
+ * @param {String} [opts.language='js'] - language file of file being used ('js', 'coffee', 'ts')
+ * @param {String} [opts.type] - parameter type (used only for TypeScript)
  * @returns {Array} - list of params
  */
 function getParams(contents, functionName, opts) {
@@ -92,9 +92,9 @@ function getParams(contents, functionName, opts) {
  * @param {String} contents - string to search
  * @param {String} functionName - name of function to verify param exists
  * @param {String} paramName - name of param to search for
- * @param {Object} [opts] - passed options
- *   {String} [opts.language = 'js'] - language file of file being used ('js', 'coffee', 'ts')
- *   {String} [opts.type] - parameter type (used only for TypeScript)
+ * @param {Object} [opts={language:'js'}] - passed options
+ * @param {String} [opts.language='js'] - language file of file being used ('js', 'coffee', 'ts')
+ * @param {String} [opts.type] - parameter type (used only for TypeScript)
  * @throws {Error} - if contents is empty
  * @throws {TypeError} - if contents, functionName, or paramName isn't a string
  * @returns {Boolean} - function functionName has parameter paramName in fileContents
