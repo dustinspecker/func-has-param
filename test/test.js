@@ -191,4 +191,73 @@ describe('func-has-param', () => {
       });
     });
   });
+
+  describe('TypeScript', () => {
+    it(`should return false when function functionName doesn't have parameter paramName`, () => {
+      const fileContents = [
+        'function test() {}',
+        'function test():string {}',
+        'function test() : string {}',
+        'function test () {return param;}',
+        [
+          'function test (x,',
+          '               y,',
+          '               z) {',
+          '  return false;',
+          '}'
+        ].join(EOL)
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(false);
+      });
+    });
+
+    it('should return true when function functionName has parameter paramName', () => {
+      const fileContents = [
+        'function test(param) {}',
+        'function test(x, y, param) {}',
+        'function test(x, y, param, z) {}',
+        'function test(x, y, param, z):string {}',
+        'function test(x:string, y:string, param:string, z:string):string {}',
+        'function test (param) {}',
+        'function test (x, y, param) {}',
+        'function test (x, y, param, z) {}',
+        'function test (x, y, param, z) : string {}',
+        'function test (x : string, y : string, param : string, z : string) : string {}',
+        [
+          'function test (x,',
+          '               y,',
+          '               param,',
+          '               z) {}'
+        ].join(EOL)
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(true);
+      });
+    });
+
+    it(`should return false when function functionName has parameter paramName with incorrect type`, () => {
+      const fileContents = [
+        'function test(x:string, y:string, param:string, z:string):string {}',
+        'function test (x : string, y : string, param : string, z : string) : string {}'
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'int'})).to.eql(false);
+      });
+    });
+
+    it('should return true when function functionName has parameter paramName with type', () => {
+      const fileContents = [
+        'function test(x:string, y:string, param:string, z:string):string {}',
+        'function test (x : string, y : string, param : string, z : string) : string {}'
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'string'})).to.eql(true);
+      });
+    });
+  });
 });

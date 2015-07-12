@@ -16,7 +16,7 @@ npm install --save func-has-param
 import fs from 'fs';
 import funcHasParam from 'func-has-param';
 
-let coffeeFile, jsFile;
+let coffeeFile, jsFile, tsFile;
 
 // contents of awesome-js-file.js
 /**
@@ -41,6 +41,25 @@ funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
 // => true
 
 funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
+// => false
+
+
+// contents of awesome-ts-file.ts
+/**
+ * function test (param: string): string {}
+ */
+tsFile = fs.readFileSync('awesome-ts-file.ts');
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts'});
+// => true
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'string'});
+// => true
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'int'});
+// => false
+
+funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
 // => false
 ```
 
@@ -48,7 +67,7 @@ funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
 ```javascript
 var fs = require('fs')
   , funcHasParam = require('func-has-param')
-  , coffeeFile, jsFile;
+  , coffeeFile, jsFile, tsFile;
 
 // contents of awesome-js-file.js
 /**
@@ -73,11 +92,33 @@ funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
 
 funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
 // => false
+
+
+// contents of awesome-ts-file.ts
+/**
+ * function test (param: string): string {}
+ */
+tsFile = fs.readFileSync('awesome-ts-file.ts');
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts'});
+// => true
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'string'});
+// => true
+
+funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'int'});
+// => false
+
+funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
+// => false
 ```
 
 ## Options
 ### language
-A string with the language of the file being inspected. Default option is `js`. Other possible option is `coffee`.
+A string with the language of the file being inspected. Default option is `js` for JavaScript. Other possible options are `coffee` for CoffeeScript and `ts` for TypeScript.
+
+### type
+Only used when using language option with `ts` value. A string that's used to match the parameter type as well as the parameter name.
 
 ## LICENSE
 MIT
