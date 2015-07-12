@@ -16,18 +16,31 @@ npm install --save func-has-param
 import fs from 'fs';
 import funcHasParam from 'func-has-param';
 
-let file;
+let coffeeFile, jsFile;
 
 // contents of awesome-js-file.js
 /**
  * function test(param) {}
  */
-file = fs.readFileSync('awesome-js-file.js');
+jsFile = fs.readFileSync('awesome-js-file.js');
 
-funcHasParam(file, 'test', 'param');
+funcHasParam(jsFile, 'test', 'param');
 // => true
 
-funcHasParam(file, 'test', 'x');
+funcHasParam(jsFile, 'test', 'x');
+// => false
+
+
+// contents of awesome-coffee-file.coffee
+/**
+ * test = (param) -> {}
+ */
+coffeeFile = fs.readFileSync('awesome-coffee-file.coffee');
+
+funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
+// => true
+
+funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
 // => false
 ```
 
@@ -35,20 +48,36 @@ funcHasParam(file, 'test', 'x');
 ```javascript
 var fs = require('fs')
   , funcHasParam = require('func-has-param')
-  , file;
+  , coffeeFile, jsFile;
 
 // contents of awesome-js-file.js
 /**
  * function test(param) {}
  */
-file = fs.readFileSync('awesome-js-file.js');
+jsFile = fs.readFileSync('awesome-js-file.js');
 
-funcHasParam(file, 'test', 'param');
+funcHasParam(jsFile, 'test', 'param');
 // => true
 
-funcHasParam(file, 'test', 'x');
+funcHasParam(jsFile, 'test', 'x');
+// => false
+
+// contents of awesome-coffee-file.coffee
+/**
+ * test = (param) -> {}
+ */
+coffeeFile = fs.readFileSync('awesome-coffee-file.coffee');
+
+funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
+// => true
+
+funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
 // => false
 ```
+
+## Options
+### language
+A string with the language of the file being inspected. Default option is `js`. Other possible option is `coffee`.
 
 ## LICENSE
 MIT

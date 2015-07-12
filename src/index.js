@@ -40,12 +40,18 @@ function whitespaceCheck(str, paramName) {
  * Get functionName's params in contents
  * @param {String} contents - string to search for function info
  * @param {String} functionName - function name to get params of
+ * @param {Object} [opts] - passed options
+ *   {String} [opts.language = 'js'] - language file of file being used ('js',
  * @returns {Array} - list of params
  */
-function getParams(contents, functionName) {
+function getParams(contents, functionName, opts) {
   let matches, regex;
 
-  regex = new RegExp(`function ${functionName}[\\s]*\\(([\\s\\S]*?)\\)`);
+  if (opts.language === 'coffee') {
+    regex = new RegExp(`${functionName}[\\s]*=[\\s]*\\(([\\s\\S]*?)\\)`);
+  } else {
+    regex = new RegExp(`function ${functionName}[\\s]*\\(([\\s\\S]*?)\\)`);
+  }
 
   matches = regex.exec(contents);
 
@@ -59,12 +65,19 @@ function getParams(contents, functionName) {
  * @param {String} contents - string to search
  * @param {String} functionName - name of function to verify param exists
  * @param {String} paramName - name of param to search for
+ * @param {Object} [opts] - passed options
+ *   {String} [opts.language = 'js'] - language file of file being used ('js', 'coffee')
  * @throws {Error} - if contents is empty
  * @throws {TypeError} - if contents, functionName, or paramName isn't a string
  * @returns {Boolean} - function functionName has parameter paramName in fileContents
  */
-export default function funcHasParam(contents, functionName, paramName) {
+export default function funcHasParam(contents, functionName, paramName, opts) {
   let params;
+
+  if (opts && opts.language !== 'js' && opts.language !== 'coffee') {
+    throw new Error(`Expected opts.language to be 'js' or 'coffee'`);
+  }
+  opts = opts || {language: 'js'};
 
   stringCheck(contents, 'contents');
   emptyStringCheck(contents, 'contents');
@@ -81,7 +94,7 @@ export default function funcHasParam(contents, functionName, paramName) {
     throw new Error(`Expected function ${functionName} to be in fileContents`);
   }
 
-  params = getParams(contents, functionName);
+  params = getParams(contents, functionName, opts);
 
   return params.includes(paramName);
 }

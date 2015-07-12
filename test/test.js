@@ -5,6 +5,14 @@ import {expect} from 'chai';
 import funcHasParam from '../lib/';
 
 describe('func-has-param', () => {
+  it(`should throw an Error when opts.language isn't 'js' or 'coffee'`, () => {
+    function testFunction() {
+      funcHasParam('fileContents', 'function', 'param', {language: 'english'});
+    }
+
+    expect(testFunction).to.throw(Error, /Expected opts.language to be 'js' or 'coffee'/);
+  });
+
   it(`should throw a TypeError when contents isn't a string`, () => {
     function testFunction() {
       funcHasParam();
@@ -102,42 +110,85 @@ describe('func-has-param', () => {
     expect(testFunction2).to.throw(Error, /Expected function funcName to be in fileContents/);
   });
 
-  it(`should return false when function functionName doesn't have parameter paramName`, () => {
-    const fileContents = [
-      'function test() {}',
-      'function test () {return param;}',
-      [
-        'function test (x,',
-        '               y,',
-        '               z) {',
-        '  return false;',
-        '}'
-      ].join(EOL)
-    ];
+  describe('JavaScript', () => {
+    it(`should return false when function functionName doesn't have parameter paramName`, () => {
+      const fileContents = [
+        'function test() {}',
+        'function test () {return param;}',
+        [
+          'function test (x,',
+          '               y,',
+          '               z) {',
+          '  return false;',
+          '}'
+        ].join(EOL)
+      ];
 
-    fileContents.forEach(function (fileContent) {
-      expect(funcHasParam(fileContent, 'test', 'param')).to.eql(false);
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(false);
+      });
+    });
+
+    it('should return true when function functionName has parameter paramName', () => {
+      const fileContents = [
+        'function test(param) {}',
+        'function test(x, y, param) {}',
+        'function test(x, y, param, z) {}',
+        'function test (param) {}',
+        'function test (x, y, param) {}',
+        'function test (x, y, param, z) {}',
+        [
+          'function test (x,',
+          '               y,',
+          '               param,',
+          '               z) {}'
+        ].join(EOL)
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(true);
+      });
     });
   });
 
-  it('should return true when function functionName has parameter paramName', () => {
-    const fileContents = [
-      'function test(param) {}',
-      'function test(x, y, param) {}',
-      'function test(x, y, param, z) {}',
-      'function test (param) {}',
-      'function test (x, y, param) {}',
-      'function test (x, y, param, z) {}',
-      [
-        'function test (x,',
-        '               y,',
-        '               param,',
-        '               z) {}'
-      ].join(EOL)
-    ];
+  describe('CoffeeScript', () => {
+    it(`should return false when function functionName doesn't have parameter paramName`, () => {
+      const fileContents = [
+        'test = () -> {}',
+        'test = () -> {param}',
+        [
+          'test = (x,',
+          '        y,',
+          '        z) -> {',
+          '  false',
+          '}'
+        ].join(EOL)
+      ];
 
-    fileContents.forEach(function (fileContent) {
-      expect(funcHasParam(fileContent, 'test', 'param')).to.eql(true);
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(false);
+      });
+    });
+
+    it('should return true when function functionName has parameter paramName', () => {
+      const fileContents = [
+        'test=(param)->{}',
+        'test=(x,y,param)->{}',
+        'test=(x,y,param,z)->{}',
+        'test = (param) -> {}',
+        'test = (x, y, param) -> {}',
+        'test = (x, y, param, z) -> {}',
+        [
+          'test = (x,',
+          '        y,',
+          '        param,',
+          '        z,) -> {}'
+        ].join(EOL)
+      ];
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(true);
+      });
     });
   });
 });
