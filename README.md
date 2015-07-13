@@ -117,6 +117,9 @@ funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
 ### language
 A string with the language of the file being inspected. Default option is `js` for JavaScript. Other possible options are `coffee` for CoffeeScript and `ts` for TypeScript.
 
+### regex
+Custom regex to use. Must include a group.
+
 ### type
 Only used when using language option with `ts` value. A string that's used to match the parameter type as well as the parameter name.
 

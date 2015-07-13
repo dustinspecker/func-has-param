@@ -190,6 +190,34 @@ describe('func-has-param', () => {
         expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(true);
       });
     });
+
+    it('should return false when using custom regex and match does not occur', () => {
+      const fileContents = [
+          '.config (param) -> {}'
+        ]
+      , opts = {
+        language: 'coffee',
+        regex: `.config \\(([\\s\\S]*?)\\)`
+      };
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true);
+      });
+    });
+
+    it('should return true when using custom regex and match occurs', () => {
+      const fileContents = [
+          '.config (param) -> {}'
+        ]
+        , opts = {
+          language: 'coffee',
+          regex: `.config \\(([\\s\\S]*?)\\)`
+        };
+
+      fileContents.forEach((fileContent) => {
+        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true);
+      });
+    });
   });
 
   describe('TypeScript', () => {
