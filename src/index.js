@@ -1,4 +1,5 @@
 'use strict';
+import funcGetParams from 'func-get-params';
 
 /**
  * Check for string type
@@ -37,62 +38,6 @@ function whitespaceCheck(str, paramName) {
 }
 
 /**
- * Get functionName's params in contents
- * @param {String} contents - string to search for function info
- * @param {String} functionName - function name to get params of
- * @param {Object} opts - passed options
- * @param {String} opts.language - language file of file being used ('js', 'coffee', 'ts')
- * @param {String} [opts.regex] - custom regex that must have a group matcher
- * @param {String} [opts.type] - parameter type (used only for TypeScript)
- * @returns {Array} - list of params
- */
-function getParams(contents, functionName, opts) {
-  let matches, regex;
-
-  if (!opts.regex) {
-    if (opts.language === 'coffee') {
-      regex = new RegExp(`${functionName}[\\s]*=[\\s]*\\(([\\s\\S]*?)\\)`);
-    } else {
-      regex = new RegExp(`function ${functionName}[\\s]*\\(([\\s\\S]*?)\\)`);
-    }
-  } else {
-    regex = new RegExp(opts.regex);
-  }
-
-  matches = regex.exec(contents);
-
-  return matches[1].split(',').map((match) => {
-    const typeLocation = match.indexOf(':');
-
-    let type = null;
-
-    if (opts.language !== 'ts') {
-      return match.trim();
-    }
-
-    if (opts.type && typeLocation !== -1) {
-      type = match.substring(typeLocation + 1, match.length);
-      type = type.trim();
-    }
-
-    if (typeLocation !== -1) {
-      match = match.substring(0, typeLocation);
-    }
-
-    match = match.trim();
-
-    if (opts.type) {
-      return {
-        match,
-        type
-      };
-    }
-
-    return match;
-  });
-}
-
-/**
  * Does function in string have a param?
  * @param {String} contents - string to search
  * @param {String} functionName - name of function to verify param exists
@@ -128,11 +73,11 @@ export default function funcHasParam(contents, functionName, paramName, opts) {
     throw new Error(`Expected function ${functionName} to be in fileContents`);
   }
 
-  params = getParams(contents, functionName, opts);
+  params = funcGetParams(contents, functionName, opts);
 
   if (opts.type) {
     for (i = 0; i < params.length; i++) {
-      if (params[i].match === paramName && params[i].type === opts.type) {
+      if (params[i].param === paramName && params[i].type === opts.type) {
         return true;
       }
     }

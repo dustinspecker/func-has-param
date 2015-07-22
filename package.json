@@ -19,7 +19,9 @@
     "url": "https://github.com/dustinspecker/func-has-param/issues"
   },
   "homepage": "https://github.com/dustinspecker/func-has-param#readme",
-  "dependencies": {},
+  "dependencies": {
+    "func-get-params": "^1.0.1"
+  },
   "devDependencies": {
     "babel": "^5.6.12",
     "chai": "^3.0.0",
