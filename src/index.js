@@ -85,11 +85,5 @@ export default function funcHasParam(contents, functionName, paramName, opts) {
     return false;
   }
 
-  for (i = 0; i < params.length; i++) {
-    if (params[i] === paramName) {
-      return true;
-    }
-  }
-
-  return false;
+  return params.indexOf(paramName) > -1;
 }
