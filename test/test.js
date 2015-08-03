@@ -195,10 +195,10 @@ describe('func-has-param', () => {
       const fileContents = [
           '.config (param) -> {}'
         ]
-      , opts = {
-        language: 'coffee',
-        regex: `.config \\(([\\s\\S]*?)\\)`
-      };
+        , opts = {
+          language: 'coffee',
+          regex: `.config \\(([\\s\\S]*?)\\)`
+        };
 
       fileContents.forEach((fileContent) => {
         expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true);
