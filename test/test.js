@@ -112,7 +112,7 @@ describe('func-has-param', () => {
 
   describe('JavaScript', () => {
     it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      const fileContents = [
+      let fileContents = [
         'function test() {}',
         'function test () {return param;}',
         [
@@ -130,7 +130,7 @@ describe('func-has-param', () => {
     });
 
     it('should return true when function functionName has parameter paramName', () => {
-      const fileContents = [
+      let fileContents = [
         'function test(param) {}',
         'function test(x, y, param) {}',
         'function test(x, y, param, z) {}',
@@ -153,7 +153,7 @@ describe('func-has-param', () => {
 
   describe('CoffeeScript', () => {
     it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      const fileContents = [
+      let fileContents = [
         'test = () -> {}',
         'test = () -> {param}',
         [
@@ -171,7 +171,7 @@ describe('func-has-param', () => {
     });
 
     it('should return true when function functionName has parameter paramName', () => {
-      const fileContents = [
+      let fileContents = [
         'test=(param)->{}',
         'test=(x,y,param)->{}',
         'test=(x,y,param,z)->{}',
@@ -192,7 +192,7 @@ describe('func-has-param', () => {
     });
 
     it('should return false when using custom regex and match does not occur', () => {
-      const fileContents = [
+      let fileContents = [
           '.config (param) -> {}'
         ]
         , opts = {
@@ -206,7 +206,7 @@ describe('func-has-param', () => {
     });
 
     it('should return true when using custom regex and match occurs', () => {
-      const fileContents = [
+      let fileContents = [
           '.config (param) -> {}'
         ]
         , opts = {
@@ -222,7 +222,7 @@ describe('func-has-param', () => {
 
   describe('TypeScript', () => {
     it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      const fileContents = [
+      let fileContents = [
         'function test() {}',
         'function test():string {}',
         'function test() : string {}',
@@ -242,7 +242,7 @@ describe('func-has-param', () => {
     });
 
     it('should return true when function functionName has parameter paramName', () => {
-      const fileContents = [
+      let fileContents = [
         'function test(param) {}',
         'function test(x, y, param) {}',
         'function test(x, y, param, z) {}',
@@ -267,7 +267,7 @@ describe('func-has-param', () => {
     });
 
     it(`should return false when function functionName has parameter paramName with incorrect type`, () => {
-      const fileContents = [
+      let fileContents = [
         'function test(x:string, y:string, param:string, z:string):string {}',
         'function test (x : string, y : string, param : string, z : string) : string {}'
       ];
@@ -278,7 +278,7 @@ describe('func-has-param', () => {
     });
 
     it('should return true when function functionName has parameter paramName with type', () => {
-      const fileContents = [
+      let fileContents = [
         'function test(x:string, y:string, param:string, z:string):string {}',
         'function test (x : string, y : string, param : string, z : string) : string {}'
       ];
