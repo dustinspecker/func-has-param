@@ -16,101 +16,95 @@ npm install --save func-has-param
 import fs from 'fs';
 import funcHasParam from 'func-has-param';
 
-let coffeeFile, jsFile, tsFile;
-
 // contents of awesome-js-file.js
 /**
  * function test(param) {}
  */
-jsFile = fs.readFileSync('awesome-js-file.js');
+fs.readFile('awesome-js-file.js', 'utf8', (err, data) => {
+  funcHasParam(data, 'test', 'param');
+  // => true
 
-funcHasParam(jsFile, 'test', 'param');
-// => true
-
-funcHasParam(jsFile, 'test', 'x');
-// => false
-
+  funcHasParam(data, 'test', 'x');
+  // => false
+});
 
 // contents of awesome-coffee-file.coffee
 /**
  * test = (param) -> {}
  */
-coffeeFile = fs.readFileSync('awesome-coffee-file.coffee');
+fs.readFile('awesome-coffee-file.coffee', 'utf8', (err, data) => {
+  funcHasParam(data, 'test', 'param', {language: 'coffee'});
+  // => true
 
-funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
-// => true
-
-funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
-// => false
-
+  funcHasParam(data, 'test', 'x', {language: 'coffee'});
+  // => false
+  });
 
 // contents of awesome-ts-file.ts
 /**
  * function test (param: string): string {}
  */
-tsFile = fs.readFileSync('awesome-ts-file.ts');
+fs.readFile('awesome-ts-file.ts', 'utf8', (err, data) => {
+  funcHasParam(data, 'test', 'param', {language: 'ts'});
+  // => true
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts'});
-// => true
+  funcHasParam(data, 'test', 'param', {language: 'ts', type: 'string'});
+  // => true
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'string'});
-// => true
+  funcHasParam(data, 'test', 'param', {language: 'ts', type: 'int'});
+  // => false
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'int'});
-// => false
-
-funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
-// => false
+  funcHasParam(data, 'test', 'x', {language: 'ts'});
+  // => false
+});
 ```
 
 ### ES5
 ```javascript
 var fs = require('fs')
-  , funcHasParam = require('func-has-param')
-  , coffeeFile, jsFile, tsFile;
+  , funcHasParam = require('func-has-param');
 
 // contents of awesome-js-file.js
 /**
  * function test(param) {}
  */
-jsFile = fs.readFileSync('awesome-js-file.js');
+fs.readFile('awesome-js-file.js', 'utf8', function (err, data) {
+  funcHasParam(data, 'test', 'param');
+  // => true
 
-funcHasParam(jsFile, 'test', 'param');
-// => true
-
-funcHasParam(jsFile, 'test', 'x');
-// => false
+  funcHasParam(data, 'test', 'x');
+  // => false
+});
 
 // contents of awesome-coffee-file.coffee
 /**
  * test = (param) -> {}
  */
-coffeeFile = fs.readFileSync('awesome-coffee-file.coffee');
+fs.readFileSync('awesome-coffee-file.coffee', 'utf8', function (err, data) {
+  funcHasParam(data, 'test', 'param', {language: 'coffee'});
+  // => true
 
-funcHasParam(coffeeFile, 'test', 'param', {language: 'coffee'});
-// => true
-
-funcHasParam(coffeeFile, 'test', 'x', {language: 'coffee'});
-// => false
-
+  funcHasParam(data, 'test', 'x', {language: 'coffee'});
+  // => false
+});
 
 // contents of awesome-ts-file.ts
 /**
  * function test (param: string): string {}
  */
-tsFile = fs.readFileSync('awesome-ts-file.ts');
+fs.readFileSync('awesome-ts-file.ts', 'utf8', function (err, data) {
+  funcHasParam(data, 'test', 'param', {language: 'ts'});
+  // => true
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts'});
-// => true
+  funcHasParam(data, 'test', 'param', {language: 'ts', type: 'string'});
+  // => true
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'string'});
-// => true
+  funcHasParam(data, 'test', 'param', {language: 'ts', type: 'int'});
+  // => false
 
-funcHasParam(tsFile, 'test', 'param', {language: 'ts', type: 'int'});
-// => false
-
-funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
-// => false
+  funcHasParam(data, 'test', 'x', {language: 'ts'});
+  // => false
+});
 ```
 
 ## API
