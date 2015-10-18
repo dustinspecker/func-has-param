@@ -113,14 +113,50 @@ funcHasParam(tsFile, 'test', 'x', {language: 'ts'});
 // => false
 ```
 
-## Options
-### language
+## API
+
+### funcHasParam(fileContents, functionName, parameterName, [options])
+
+Returns a `boolean`.
+
+#### fileContents
+
+Type: `string`
+
+File contents to be searched for `functionName` with `parameterName`.
+
+#### functionName
+
+Type: `string`
+
+Function name to look for.
+
+#### parameterName
+
+Type: `string`
+
+Parameter name to look for within function signature.
+
+#### options
+
+##### language
+
+Type: `string`
+
+Default: `js`
+
 A string with the language of the file being inspected. Default option is `js` for JavaScript. Other possible options are `coffee` for CoffeeScript and `ts` for TypeScript.
 
-### regex
+##### regex
+
+Type: `regex`
+
 Custom regex to use. Must include a group.
 
-### type
+##### type
+
+Type: `string`
+
 Only used when using language option with `ts` value. A string that's used to match the parameter type as well as the parameter name.
 
 ## LICENSE
