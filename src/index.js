@@ -50,7 +50,7 @@ function whitespaceCheck(str, paramName) {
  * @throws {TypeError} - if contents, functionName, or paramName isn't a string
  * @returns {Boolean} - function functionName has parameter paramName in fileContents
  */
-export default function funcHasParam(contents, functionName, paramName, opts) {
+module.exports = function (contents, functionName, paramName, opts) {
   let i, params;
 
   if (opts && opts.language !== 'js' && opts.language !== 'coffee' && opts.language !== 'ts') {
@@ -86,4 +86,4 @@ export default function funcHasParam(contents, functionName, paramName, opts) {
   }
 
   return params.indexOf(paramName) > -1;
-}
+};
