@@ -1,5 +1,5 @@
-'use strict';
-import funcGetParams from 'func-get-params';
+'use strict'
+import funcGetParams from 'func-get-params'
 
 /**
  * Check for string type
@@ -7,9 +7,9 @@ import funcGetParams from 'func-get-params';
  * @param {String} paramName - parameter name being checked
  * @throws {TypeError} - if o is not a string
  */
-function stringCheck(o, paramName) {
+const stringCheck = (o, paramName) => {
   if (typeof o !== 'string') {
-    throw new TypeError(`Expected ${paramName} to be a string`);
+    throw new TypeError(`Expected ${paramName} to be a string`)
   }
 }
 
@@ -19,9 +19,9 @@ function stringCheck(o, paramName) {
  * @param {String} paramName - parameter name being checked
  * @throws {Error} - if str is an empty string
  */
-function emptyStringCheck(str, paramName) {
+const emptyStringCheck = (str, paramName) => {
   if (str.length === 0) {
-    throw new Error(`Expected ${paramName} to be non-empty string`);
+    throw new Error(`Expected ${paramName} to be non-empty string`)
   }
 }
 
@@ -31,9 +31,9 @@ function emptyStringCheck(str, paramName) {
  * @param {String} paramName - parameter name being checked
  * @throws {Error} - if str contains whitespace
  */
-function whitespaceCheck(str, paramName) {
+const whitespaceCheck = (str, paramName) => {
   if (str.match(/\s/g)) {
-    throw new Error(`Expected ${paramName} to not contain whitespace`);
+    throw new Error(`Expected ${paramName} to not contain whitespace`)
   }
 }
 
@@ -51,39 +51,39 @@ function whitespaceCheck(str, paramName) {
  * @returns {Boolean} - function functionName has parameter paramName in fileContents
  */
 module.exports = function (contents, functionName, paramName, opts) {
-  let i, params;
+  let i
 
   if (opts && opts.language !== 'js' && opts.language !== 'coffee' && opts.language !== 'ts') {
-    throw new Error(`Expected opts.language to be 'js' or 'coffee'`);
+    throw new Error('Expected opts.language to be \'js\' or \'coffee\'')
   }
-  opts = opts || {language: 'js'};
+  const options = opts || {language: 'js'}
 
-  stringCheck(contents, 'contents');
-  emptyStringCheck(contents, 'contents');
+  stringCheck(contents, 'contents')
+  emptyStringCheck(contents, 'contents')
 
-  stringCheck(functionName, 'functionName');
-  emptyStringCheck(functionName, 'functionName');
-  whitespaceCheck(functionName, 'functionName');
+  stringCheck(functionName, 'functionName')
+  emptyStringCheck(functionName, 'functionName')
+  whitespaceCheck(functionName, 'functionName')
 
-  stringCheck(paramName, 'paramName');
-  emptyStringCheck(paramName, 'paramName');
-  whitespaceCheck(paramName, 'paramName');
+  stringCheck(paramName, 'paramName')
+  emptyStringCheck(paramName, 'paramName')
+  whitespaceCheck(paramName, 'paramName')
 
   if (contents.indexOf(functionName) === -1) {
-    throw new Error(`Expected function ${functionName} to be in fileContents`);
+    throw new Error(`Expected function ${functionName} to be in fileContents`)
   }
 
-  params = funcGetParams(contents, functionName, opts);
+  const params = funcGetParams(contents, functionName, options)
 
-  if (opts.type) {
+  if (options.type) {
     for (i = 0; i < params.length; i++) {
-      if (params[i].param === paramName && params[i].type === opts.type) {
-        return true;
+      if (params[i].param === paramName && params[i].type === options.type) {
+        return true
       }
     }
 
-    return false;
+    return false
   }
 
-  return params.indexOf(paramName) > -1;
-};
+  return params.indexOf(paramName) > -1
+}

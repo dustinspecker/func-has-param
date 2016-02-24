@@ -1,266 +1,210 @@
 /* global describe, it */
-'use strict';
-import {EOL} from 'os';
-import {expect} from 'chai';
-import funcHasParam from '../lib/';
+'use strict'
+import {expect} from 'chai'
+import funcHasParam from '../lib/'
 
 describe('func-has-param', () => {
-  it(`should throw an Error when opts.language isn't 'js' or 'coffee'`, () => {
-    function testFunction() {
-      funcHasParam('fileContents', 'function', 'param', {language: 'english'});
-    }
+  it('should throw an Error when opts.language isn\'t \'js\' or \'coffee\'', () => {
+    const testFunction = () =>
+      funcHasParam('fileContents', 'function', 'param', {language: 'english'})
 
-    expect(testFunction).to.throw(Error, /Expected opts.language to be 'js' or 'coffee'/);
-  });
+    expect(testFunction).to.throw(Error, /Expected opts.language to be 'js' or 'coffee'/)
+  })
 
-  it(`should throw a TypeError when contents isn't a string`, () => {
-    function testFunction() {
-      funcHasParam();
-    }
+  it('should throw a TypeError when contents isn\'t a string', () => {
+    const testFunction = () => funcHasParam()
 
-    expect(testFunction).to.throw(TypeError, /Expected contents to be a string/);
-  });
+    expect(testFunction).to.throw(TypeError, /Expected contents to be a string/)
+  })
 
   it('should throw an Error when contents is an empty string', () => {
-    function testFunction() {
-      funcHasParam('');
-    }
+    const testFunction = () => funcHasParam('')
 
-    expect(testFunction).to.throw(Error, /Expected contents to be non-empty string/);
-  });
+    expect(testFunction).to.throw(Error, /Expected contents to be non-empty string/)
+  })
 
-  it(`should throw a TypeError when functionName isn't a string`, () => {
-    function testFunction() {
-      funcHasParam('fileContents');
-    }
+  it('should throw a TypeError when functionName isn\'t a string', () => {
+    const testFunction = () => funcHasParam('fileContents')
 
-    expect(testFunction).to.throw(TypeError, /Expected functionName to be a string/);
-  });
+    expect(testFunction).to.throw(TypeError, /Expected functionName to be a string/)
+  })
 
   it('should throw an Error when functionName is an empty string', () => {
-    function testFunction() {
-      funcHasParam('fileContents', '');
-    }
+    const testFunction = () => funcHasParam('fileContents', '')
 
-    expect(testFunction).to.throw(Error, /Expected functionName to be non-empty string/);
-  });
+    expect(testFunction).to.throw(Error, /Expected functionName to be non-empty string/)
+  })
 
   it('should throw an Error when functionName has whitespace', () => {
-    function testFunctionSpace() {
-      funcHasParam('fileContents', ' ');
-    }
+    const testFunctionSpace = () => funcHasParam('fileContents', ' ')
 
-    function testFunctionTab() {
-      funcHasParam('fileContents', '  ');
-    }
+    const testFunctionTab = () => funcHasParam('fileContents', '  ')
 
-    function testFunctionNewline() {
-      funcHasParam('fileContents', '\n');
-    }
+    const testFunctionNewline = () => funcHasParam('fileContents', '\n')
 
-    expect(testFunctionSpace).to.throw(Error, /Expected functionName to not contain whitespace/);
-    expect(testFunctionTab).to.throw(Error, /Expected functionName to not contain whitespace/);
-    expect(testFunctionNewline).to.throw(Error, /Expected functionName to not contain whitespace/);
-  });
+    expect(testFunctionSpace).to.throw(Error, /Expected functionName to not contain whitespace/)
+    expect(testFunctionTab).to.throw(Error, /Expected functionName to not contain whitespace/)
+    expect(testFunctionNewline).to.throw(Error, /Expected functionName to not contain whitespace/)
+  })
 
-  it(`should throw a TypeError when paramName isn't a string`, () => {
-    function testFunction() {
-      funcHasParam('fileContents', 'functionName');
-    }
+  it('should throw a TypeError when paramName isn\'t a string', () => {
+    const testFunction = () => funcHasParam('fileContents', 'functionName')
 
-    expect(testFunction).to.throw(TypeError, /Expected paramName to be a string/);
-  });
+    expect(testFunction).to.throw(TypeError, /Expected paramName to be a string/)
+  })
 
   it('should throw an Error when paramName is empty string', () => {
-    function testFunction() {
-      funcHasParam('fileContents', 'functionName', '');
-    }
+    const testFunction = () => funcHasParam('fileContents', 'functionName', '')
 
-    expect(testFunction).to.throw(Error, /Expected paramName to be non-empty string/);
-  });
+    expect(testFunction).to.throw(Error, /Expected paramName to be non-empty string/)
+  })
 
   it('should throw an Error when paramName has whitespace', () => {
-    function testFunctionSpace() {
-      funcHasParam('fileContents', 'functionName', ' ');
-    }
+    const testFunctionSpace = () => funcHasParam('fileContents', 'functionName', ' ')
 
-    function testFunctionTab() {
-      funcHasParam('fileContents', 'functionName', '  ');
-    }
+    const testFunctionTab = () => funcHasParam('fileContents', 'functionName', '  ')
 
-    function testFunctionNewline() {
-      funcHasParam('fileContents', 'functionName', '\n');
-    }
+    const testFunctionNewline = () => funcHasParam('fileContents', 'functionName', '\n')
 
-    expect(testFunctionSpace).to.throw(Error, /Expected paramName to not contain whitespace/);
-    expect(testFunctionTab).to.throw(Error, /Expected paramName to not contain whitespace/);
-    expect(testFunctionNewline).to.throw(Error, /Expected paramName to not contain whitespace/);
-  });
+    expect(testFunctionSpace).to.throw(Error, /Expected paramName to not contain whitespace/)
+    expect(testFunctionTab).to.throw(Error, /Expected paramName to not contain whitespace/)
+    expect(testFunctionNewline).to.throw(Error, /Expected paramName to not contain whitespace/)
+  })
 
-  it(`should throw an error when functionName isn't in fileContents`, () => {
-    function testFunction1() {
-      funcHasParam('fileContents', 'functionName', 'paramName');
-    }
+  it('should throw an error when functionName isn\'t in fileContents', () => {
+    const testFunction1 = () => funcHasParam('fileContents', 'functionName', 'paramName')
 
-    function testFunction2() {
-      funcHasParam('fileContents', 'funcName', 'paramName');
-    }
+    const testFunction2 = () => funcHasParam('fileContents', 'funcName', 'paramName')
 
-    expect(testFunction1).to.throw(Error, /Expected function functionName to be in fileContents/);
-    expect(testFunction2).to.throw(Error, /Expected function funcName to be in fileContents/);
-  });
+    expect(testFunction1).to.throw(Error, /Expected function functionName to be in fileContents/)
+    expect(testFunction2).to.throw(Error, /Expected function funcName to be in fileContents/)
+  })
 
   describe('JavaScript', () => {
-    it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      let fileContents;
-
-      fileContents = [
+    it('should return false when function functionName doesn\'t have parameter paramName', () => {
+      const fileContents = [
         'function test() {}',
-        'function test () {return param;}',
-        [
-          'function test (x,',
-          '               y,',
-          '               z) {',
-          '  return false;',
-          '}'
-        ].join(EOL)
-      ];
+        'function test () {return param}',
+        `function test (x,
+                        y,
+                        z) {
+          return false',
+        }`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(false);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(false)
+      })
+    })
 
     it('should return true when function functionName has parameter paramName', () => {
-      let fileContents;
-
-      fileContents = [
+      const fileContents = [
         'function test(param) {}',
         'function test(x, y, param) {}',
         'function test(x, y, param, z) {}',
         'function test (param) {}',
         'function test (x, y, param) {}',
         'function test (x, y, param, z) {}',
-        [
-          'function test (x,',
-          '               y,',
-          '               param,',
-          '               z) {}'
-        ].join(EOL)
-      ];
+        `function test (x,
+                        y,
+                        param,
+                        z) {}`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(true);
-      });
-    });
-  });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param')).to.eql(true)
+      })
+    })
+  })
 
   describe('CoffeeScript', () => {
-    it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      let fileContents;
-
-      fileContents = [
+    it('should return false when function functionName doesn\'t have parameter paramName', () => {
+      const fileContents = [
         'test = () -> {}',
         'test = () -> {param}',
-        [
-          'test = (x,',
-          '        y,',
-          '        z) -> {',
-          '  false',
-          '}'
-        ].join(EOL)
-      ];
+        `test = (x,
+                 y,
+                 z) -> {
+          false
+        }`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(false);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(false)
+      })
+    })
 
     it('should return true when function functionName has parameter paramName', () => {
-      let fileContents;
-
-      fileContents = [
+      const fileContents = [
         'test=(param)->{}',
         'test=(x,y,param)->{}',
         'test=(x,y,param,z)->{}',
         'test = (param) -> {}',
         'test = (x, y, param) -> {}',
         'test = (x, y, param, z) -> {}',
-        [
-          'test = (x,',
-          '        y,',
-          '        param,',
-          '        z,) -> {}'
-        ].join(EOL)
-      ];
+        `test = (x,
+                 y,
+                 param,
+                 z,) -> {}`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(true);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'coffee'})).to.eql(true)
+      })
+    })
 
     it('should return false when using custom regex and match does not occur', () => {
-      let fileContents, opts;
-
-      fileContents = [
+      const fileContents = [
         '.config (param) -> {}'
-      ];
+      ]
 
-      opts = {
+      const opts = {
         language: 'coffee',
-        regex: `.config \\(([\\s\\S]*?)\\)`
-      };
+        regex: '.config \\(([\\s\\S]*?)\\)'
+      }
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true)
+      })
+    })
 
     it('should return true when using custom regex and match occurs', () => {
-      let fileContents, opts;
-
-      fileContents = [
+      const fileContents = [
         '.config (param) -> {}'
-      ];
+      ]
 
-      opts = {
+      const opts = {
         language: 'coffee',
-        regex: `.config \\(([\\s\\S]*?)\\)`
-      };
+        regex: '.config \\(([\\s\\S]*?)\\)'
+      }
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true);
-      });
-    });
-  });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'config', 'param', opts)).to.eql(true)
+      })
+    })
+  })
 
   describe('TypeScript', () => {
-    it(`should return false when function functionName doesn't have parameter paramName`, () => {
-      let fileContents;
-
-      fileContents = [
+    it('should return false when function functionName doesn\'t have parameter paramName', () => {
+      const fileContents = [
         'function test() {}',
         'function test():string {}',
         'function test() : string {}',
-        'function test () {return param;}',
-        [
-          'function test (x,',
-          '               y,',
-          '               z) {',
-          '  return false;',
-          '}'
-        ].join(EOL)
-      ];
+        'function test () {return param}',
+        `function test (x,
+                        y,
+                        z) {
+          return false
+        }`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(false);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(false)
+      })
+    })
 
     it('should return true when function functionName has parameter paramName', () => {
-      let fileContents;
-
-      fileContents = [
+      const fileContents = [
         'function test(param) {}',
         'function test(x, y, param) {}',
         'function test(x, y, param, z) {}',
@@ -271,43 +215,37 @@ describe('func-has-param', () => {
         'function test (x, y, param, z) {}',
         'function test (x, y, param, z) : string {}',
         'function test (x : string, y : string, param : string, z : string) : string {}',
-        [
-          'function test (x,',
-          '               y,',
-          '               param,',
-          '               z) {}'
-        ].join(EOL)
-      ];
+        `function test (x,
+                        y,
+                        param,
+                        z) {}`
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(true);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts'})).to.eql(true)
+      })
+    })
 
-    it(`should return false when function functionName has parameter paramName with incorrect type`, () => {
-      let fileContents;
-
-      fileContents = [
+    it('should return false when function functionName has parameter paramName with incorrect type', () => {
+      const fileContents = [
         'function test(x:string, y:string, param:string, z:string):string {}',
         'function test (x : string, y : string, param : string, z : string) : string {}'
-      ];
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'int'})).to.eql(false);
-      });
-    });
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'int'})).to.eql(false)
+      })
+    })
 
     it('should return true when function functionName has parameter paramName with type', () => {
-      let fileContents;
-
-      fileContents = [
+      const fileContents = [
         'function test(x:string, y:string, param:string, z:string):string {}',
         'function test (x : string, y : string, param : string, z : string) : string {}'
-      ];
+      ]
 
-      fileContents.forEach((fileContent) => {
-        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'string'})).to.eql(true);
-      });
-    });
-  });
-});
+      fileContents.forEach(fileContent => {
+        expect(funcHasParam(fileContent, 'test', 'param', {language: 'ts', type: 'string'})).to.eql(true)
+      })
+    })
+  })
+})
